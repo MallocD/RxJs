@@ -5,9 +5,37 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/6.1.0/rxjs.umd.js"></script>
 </head>
 <body>
-    <script type="module" src="index.js"></script>
+    <script>
+        const { Observable } = rxjs;
+        const { share } = rxjs.operators;
+        const promise = new Promise((resolve)=>{
+           resolve(1)
+        })
+
+        const observer = Observable.create((observer)=>{{
+            observer.next(1)
+            observer.next(2)
+            observer.next(3)
+            observer.next(4)
+            observer.next(5)
+            observer.next(6)
+            setTimeout(() => observer.next(10),1000)
+        }})
+        promise.then(num => console.log('Promise', num));
+        console.log('depois da promisse')
+        observer.subscribe(num => console.log('Observable', num))
+        console.log('depois do Observable')
+
+
+        // setTimeout(()=>{
+        //     promise.then(num => console.log('Promisse', num))
+        //     observer.subscribe(num=> console.log('Observable',num))
+        // },2000)
+
+    </script>
     
 </body>
 </html>
